@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>失物招领(简版)</title>
+<script src="https://registry.npmmirror.com/vue/3.5.13/files/dist/vue.global.prod.js"></script>
+<style>
+  body{font-family:sans-serif;max-width:800px;margin:20px auto;padding:0 10px}
+  .card{border:1px solid #ddd;border-radius:6px;padding:10px;margin:8px 0}
+  input,select,textarea,button{margin:3px;padding:6px}
+  button{cursor:pointer}
+  .tag{font-size:12px;padding:1px 6px;border-radius:3px;color:#fff}
+  .lost{background:#f56c6c}.found{background:#67c23a}
+  .muted{color:#999;font-size:13px}
+</style>
+</head>
+<body>
+<div id="app">
+  <h2>校园失物招领(简版)</h2>
+
+  <!-- 未登录：注册/登录 -->
+  <div v-if="!token" class="card">
+    <h3>{{ mode==='login' ? '登录' : '注册' }}</h3>
+    <template v-if="mode==='register'">
+      用户名 <input v-model="username" placeholder="3-10位中文/字母/数字">
+    </template>
+    <template v-else>
+      uid <input v-model="uid" placeholder="注册后分配的uid">
+    </template>
+    密码 <input v-model="password" type="password" placeholder="6-20位">
+    <button @click="submit">{{ mode==='login' ? '登录' : '注册' }}</button>
+    <button @click="mode = mode==='login' ? 'register' : 'login'">
+      {{ mode==='login' ? '去注册' : '去登录' }}
+    </button>
+    <p v-if="tip" class="muted">{{ tip }}</p>
+  </div>
+
+  <!-- 已登录 -->
+  <template v-else>
+    <div>
+      欢迎 uid:{{ me.uid }}({{ me.username }})
+      <button @click="logout">退出</button>
+    </div>
+
+    <!-- 发布表单 -->
+    <div class="card">
+      <h3>发布信息</h3>
+      <select v-model="form.type"><option value="lost">失物</option><option value="found">拾物</option></select>
+      标题 <input v-model="form.title">
+      地点 <input v-model="form.location">
+      联系方式 <input v-model="form.contact">
+      <br>
+      描述 <textarea v-model="form.description" rows="2" cols="50"></textarea>
+      <br><button @click="publish">提交(需管理员审核后展示)</button>
+    </div>
+  </template>
+
+  <!-- 列表(公开) -->
+  <div class="card">
+    <h3>信息列表</h3>
+    <select v-model="q.type"><option value="">全部</option><option value="lost">失物</option><option value="found">拾物</option></select>
+    关键词 <input v-model="q.keyword" @keyup.enter="load">
+    <button @click="load">搜索</button>
+    <div v-for="it in items" :key="it.id" class="card">
+      <span class="tag" :class="it.type">{{ it.type==='lost'?'失物':'拾物' }}</span>
+      <b>{{ it.title }}</b> ({{ it.status==='pending'?'待审核':it.status==='approved'?'已发布':'已认领' }})
+      <div class="muted">📍{{ it.location }} | {{ it.description }}</div>
+      <div class="muted">发布人:{{ it.user?.username }} | 联系:{{ it.contact }}</div>
+      <button v-if="token && it.status==='approved'" @click="claim(it)">申请认领</button>
+    </div>
+    <button v-if="items.length" :disabled="q.page<=1" @click="q.page--;load()">上一页</button>
+    <button v-if="items.length===10" @click="q.page++;load()">下一页</button>
+  </div>
+
+  <p class="muted">提示: 请先启动 backend (npm start, 端口8080)。内置管理员 uid=10000 密码 admin123</p>
+</div>
+
+<script>
+Vue.createApp({
+  data(){ return {
+    api:'http://localhost:8080/api/v1',
+    token:localStorage.token||'', me:{}, mode:'login',
+    username:'', uid:'', password:'', tip:'',
+    q:{page:1,type:'',keyword:''}, items:[],
+    form:{type:'lost',title:'',description:'',location:'',contact:''}
+  }},
+  created(){ if(this.token) this.loadItems() },
+  methods:{
+    // 带token的请求, 返回data或抛出msg
+    async req(path, opt={}){
+      const r = await fetch(this.api+path, {
+        ...opt,
+        headers:{ 'Content-Type':'application/json', ...(this.token?{Authorization:'Bearer '+this.token}:{}), ...opt.headers }
+      }).then(r=>r.json())
+      if(r.code!==0) throw r.msg
+      return r.data
+    },
+    async submit(){
+      try{
+        if(this.mode==='register'){
+          const d = await this.req('/auth/register',{method:'POST',body:JSON.stringify({username:this.username,password:this.password})})
+          this.tip = '注册成功! 你的uid是 '+d.uid+', 请用它登录'
+          this.mode='login'; this.uid=d.uid
+        }else{
+          const d = await this.req('/auth/login',{method:'POST',body:JSON.stringify({uid:+this.uid,password:this.password})})
+          this.token=d.token; this.me=d.user
+          localStorage.token=d.token
+          this.loadItems()
+        }
+      }catch(e){ this.tip = typeof e==='string'?e:'操作失败' }
+    },
+    logout(){ this.token=''; this.me={}; delete localStorage.token },
+    async loadItems(){
+      try{ this.items = (await this.req('/items?page='+this.q.page+'&page_size=10'+(this.q.type?'&type='+this.q.type:'')+(this.q.keyword?'&keyword='+encodeURIComponent(this.q.keyword):''))).list }
+      catch(e){ alert(e) }
+    },
+    async load(){ this.q.page=1; this.loadItems() },
+    async publish(){
+      try{ await this.req('/items',{method:'POST',body:JSON.stringify(this.form)}); alert('发布成功, 等待审核'); this.loadItems() }
+      catch(e){ alert(e) }
+    },
+    async claim(it){
+      const proof = prompt('请输入认领证明(描述物品特征):')
+      if(!proof) return
+      const contact = prompt('请输入联系方式:') || ''
+      try{ await this.req(`/items/${it.id}/claims`,{method:'POST',body:JSON.stringify({proof,contact})}); alert('申请已提交, 等待管理员审核') }
+      catch(e){ alert(e) }
+    }
+  }
+}).mount('#app')
+</script>
+</body>
+</html>
