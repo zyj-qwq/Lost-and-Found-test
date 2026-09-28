@@ -1,0 +1,100 @@
+/* ============================================================
+theme.css —— 全局"设计变量"集中定义的地方
+============================================================
+为什么要单独弄一个文件？
+  因为颜色、圆角、阴影这些值在整个项目里到处都要用。
+  如果每处都写死 #409eff，以后想换个主题色就得改几十个文件。
+  把它们统一定义成 CSS 变量（--开头的名字），改一处就全局生效。
+
+怎么用？
+  在任意 .vue 的 <style> 里写：color: var(--brand-500);
+  就相当于取到了蓝色那个值。
+
+类比原生 CSS：跟你写 :root { --my-color: red } 是完全一样的东西。
+============================================================ */
+
+:root {
+  /* ---------- 品牌色阶（主色是一个偏青蓝的色调，比默认蓝更柔和） ---------- */
+  --brand-50: #eef6ff;
+  --brand-100: #d9ecff;
+  --brand-200: #b8dbff;
+  --brand-300: #85c1ff;
+  --brand-400: #4fa3f7;
+  --brand-500: #2b7fe4; /* 主色：按钮、链接、选中态 */
+  --brand-600: #1f66c4;
+  --brand-700: #1a519c;
+
+  /* ---------- 辅助色 ---------- */
+  --accent-500: #7c5cff; /* 紫：渐变副色，用于 hero、logo */
+  --mint-500: #12b886; /* 拾物绿 */
+  --amber-500: #f5a524; /* 待审核橙 */
+  --rose-500: #f04a5e; /* 失物红 */
+
+  /* ---------- 中性色（文字由深到浅，背景由浅到深） ---------- */
+  --text-1: #1a2233; /* 主标题 */
+  --text-2: #3d4757; /* 正文 */
+  --text-3: #6b7688; /* 次要信息 */
+  --text-4: #9aa4b5; /* 占位、禁用 */
+
+  --bg-page: #f4f6fb; /* 页面底色 */
+  --bg-card: #ffffff; /* 卡片底 */
+  --bg-soft: #f7f9fc; /* 浅色块 */
+  --border-base: #e6eaf2;
+
+  /* ---------- 圆角 ---------- */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-full: 999px;
+
+  /* ---------- 阴影（三层，越往下越"高"） ---------- */
+  --shadow-xs: 0 1px 2px rgba(24, 39, 75, 0.05);
+  --shadow-sm: 0 2px 8px rgba(24, 39, 75, 0.06);
+  --shadow-md: 0 6px 20px rgba(24, 39, 75, 0.08);
+  --shadow-lg: 0 16px 40px rgba(24, 39, 75, 0.12);
+  --shadow-brand: 0 8px 24px rgba(43, 127, 228, 0.28);
+
+  /* ---------- 渐变（背景用） ---------- */
+  --grad-brand: linear-gradient(135deg, #2b7fe4 0%, #7c5cff 100%);
+  --grad-hero: linear-gradient(135deg, #1f66c4 0%, #2b7fe4 45%, #7c5cff 100%);
+  --grad-soft: linear-gradient(135deg, #eef6ff 0%, #f3efff 100%);
+
+  /* ---------- 动效曲线（统一手感，别用默认的 ease） ---------- */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* ---------- 覆盖 Element Plus 自己的变量 ----------
+     组件库内部大量使用了 --el-xxx 变量，我们直接改这些值，
+     就能让所有 el- 组件自动跟着变成我们的配色，无需一个个改。 */
+  --el-color-primary: #2b7fe4;
+  --el-color-primary-light-3: #5b9dea;
+  --el-color-primary-light-5: #85b6ef;
+  --el-color-primary-light-7: #afcef5;
+  --el-color-primary-light-8: #c4d9f8;
+  --el-color-primary-light-9: #eef6ff;
+  --el-color-primary-dark-2: #1f66c4;
+
+  --el-color-success: #12b886;
+  --el-color-warning: #f5a524;
+  --el-color-danger: #f04a5e;
+  --el-color-error: #f04a5e;
+  --el-color-info: #6b7688;
+
+  --el-text-color-primary: #1a2233;
+  --el-text-color-regular: #3d4757;
+  --el-text-color-secondary: #6b7688;
+  --el-text-color-placeholder: #9aa4b5;
+
+  --el-border-color: #e6eaf2;
+  --el-border-color-light: #edf1f7;
+  --el-border-color-lighter: #f2f5fa;
+
+  --el-border-radius-base: 10px;
+  --el-border-radius-small: 6px;
+
+  --el-font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC',
+    'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif;
+
+  --el-box-shadow-light: 0 6px 20px rgba(24, 39, 75, 0.08);
+}

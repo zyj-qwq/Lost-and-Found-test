@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <!--
+      favicon：浏览器标签页上的小图标。
+      文件放在 public/ 目录下，会被原样复制到网站根目录，所以这里直接写 /logo.svg
+      （原来指向的是 Vite 自带的 /vite.svg，那个文件我们没复制过来，会 404）
+    -->
+    <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--
+      浏览器手机端地址栏的颜色（安卓 Chrome、微信内置浏览器会读取）
+      设成和品牌深蓝一致，看起来更统一
+    -->
+    <meta name="theme-color" content="#2b7fe4" />
+    <meta name="description" content="校园失物招领平台 —— 发布失物与拾物信息，管理员审核，在线申请认领，让每一件失物都能回家。" />
+    <title>校园失物招领平台</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

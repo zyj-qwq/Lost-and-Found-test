@@ -1,0 +1,43 @@
+<!-- ============================================================
+empty-box.svg —— 空状态插画
+============================================================
+当列表没有数据时显示的图，替代 Element Plus 默认那个灰色方块。
+画的是一只空的纸箱，暗示"这里暂时啥也没有"。
+============================================================ -->
+
+<svg viewBox="0 0 220 170" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="boxFront" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#e8f1ff" />
+    </linearGradient>
+    <linearGradient id="boxTop" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#d9ecff" />
+      <stop offset="100%" stop-color="#c4d9f8" />
+    </linearGradient>
+  </defs>
+
+  <!-- 地面投影 -->
+  <ellipse cx="110" cy="152" rx="76" ry="9" fill="#2b7fe4" fill-opacity="0.09" />
+
+  <!-- 箱体正面 -->
+  <path d="M46 74 L110 96 L110 146 L46 124 Z" fill="url(#boxFront)" />
+  <path d="M174 74 L110 96 L110 146 L174 124 Z" fill="#eef4fd" />
+
+  <!-- 箱盖（左右两片，翻开着） -->
+  <path d="M46 74 L110 96 L110 60 L62 46 Z" fill="url(#boxTop)" />
+  <path d="M174 74 L110 96 L110 60 L158 46 Z" fill="#c4d9f8" />
+
+  <!-- 箱子上的品牌贴纸 -->
+  <rect x="76" y="102" width="26" height="10" rx="5" transform="rotate(18 89 107)" fill="#2b7fe4" fill-opacity="0.35" />
+
+  <!-- 飞舞的小纸条（表示"没有内容"） -->
+  <rect x="150" y="26" width="20" height="14" rx="3" transform="rotate(18 160 33)" fill="#ffffff" stroke="#c4d9f8" stroke-width="1.5" />
+  <rect x="52" y="18" width="16" height="11" rx="3" transform="rotate(-22 60 24)" fill="#ffffff" stroke="#d9ecff" stroke-width="1.5" />
+
+  <!-- 漂浮小圆点 -->
+  <circle cx="182" cy="58" r="4" fill="#7c5cff" fill-opacity="0.3" />
+  <circle cx="38" cy="62" r="5" fill="#2b7fe4" fill-opacity="0.25" />
+  <circle cx="196" cy="104" r="3" fill="#12b886" fill-opacity="0.35" />
+  <circle cx="26" cy="106" r="3.5" fill="#f5a524" fill-opacity="0.35" />
+</svg>

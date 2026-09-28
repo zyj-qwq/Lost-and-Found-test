@@ -1,0 +1,284 @@
+/* ============================================================
+global.css —— 全局基础样式 + 通用工具类 + 组件库微调
+============================================================
+theme.css 定义"变量"，这里定义"规则"。
+包括三部分：
+  1. 浏览器默认样式的重置（reset）
+  2. 项目里反复用到的通用类（比如 .page-head、.toolbar）
+  3. 对 Element Plus 组件外观的微调（圆角、阴影、表格等）
+============================================================ */
+
+/* ---------------- 1. 基础重置 ---------------- */
+
+* {
+  box-sizing: border-box; /* 让 padding/border 算进宽度，布局不容易溢出 */
+}
+
+html,
+body,
+#app {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--el-font-family);
+  color: var(--text-2);
+  background: var(--bg-page);
+  -webkit-font-smoothing: antialiased; /* 让字体在 Mac/高分屏上更细腻 */
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  color: var(--text-1);
+  margin: 0;
+}
+
+a {
+  color: var(--brand-500);
+  text-decoration: none;
+}
+
+/* 自定义滚动条：默认的太粗太丑 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: #ccd4e0;
+  border-radius: var(--radius-full);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #aeb9c9;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* ---------------- 2. 通用工具类 ----------------
+   这些类名不带 scoped，所以在任意组件里都能直接用。
+   命名用 pf- 前缀（page framework），避免跟组件库的类名撞车。 */
+
+/* 页面统一最大宽度：所有页面包一层，左右留白一致 */
+.pf-container {
+  max-width: 1180px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* 页面标题区（带一条彩色竖线的标题） */
+.pf-page-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-1);
+  line-height: 1.4;
+}
+.pf-page-title::before {
+  content: '';
+  width: 4px;
+  height: 20px;
+  border-radius: var(--radius-full);
+  background: var(--grad-brand);
+}
+
+/* 卡片头部：左标题 + 右操作按钮 */
+.pf-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* 工具栏：一排筛选控件 */
+.pf-toolbar {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* 分页器居中容器 */
+.pf-pager {
+  display: flex;
+  justify-content: center;
+  padding: 20px 0 4px;
+}
+
+/* 文字省略号 */
+.pf-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 淡入上浮动画：页面内容进场时用
+   ⚠ 注意 to 帧必须写 transform: none 而不是 translateY(0)！
+   因为 fill-mode: both 会把最后一帧永久保留在元素上，
+   只要 transform 不是 none，就会让该元素变成 position: fixed
+   子元素（比如弹窗遮罩层）的"定位基准"，导致弹窗遮罩铺不满全屏、
+   弹窗被裁剪 —— 这是一个非常隐蔽的 CSS 坑 */
+@keyframes pf-rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.pf-rise {
+  animation: pf-rise 0.45s var(--ease-out) both;
+}
+
+/* 页面切换过渡（配合 App.vue 里的 <transition> 使用） */
+.page-fade-enter-active {
+  transition: opacity 0.28s var(--ease-out), transform 0.28s var(--ease-out);
+}
+.page-fade-leave-active {
+  transition: opacity 0.16s ease;
+}
+.page-fade-enter-from {
+  opacity: 0;
+  transform: translateY(10px);
+}
+.page-fade-leave-to {
+  opacity: 0;
+}
+
+/* ---------------- 3. 覆盖 Element Plus 外观 -
+   （不加 scoped，才能改到组件库自身的类） */
+
+/* 卡片：更圆的角 + 更柔的阴影 */
+.el-card {
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-base);
+  box-shadow: var(--shadow-sm) !important;
+  overflow: hidden;
+}
+.el-card__header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-base);
+  background: #fff;
+}
+
+/* 按钮：稍微高一点、加一点字间距，看起来更"贵" */
+.el-button {
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  transition: all 0.2s var(--ease-out);
+}
+.el-button--primary:not(.is-link):not(.is-text) {
+  background: var(--grad-brand);
+  border: none;
+  box-shadow: 0 4px 12px rgba(43, 127, 228, 0.25);
+}
+.el-button--primary:not(.is-link):not(.is-text):hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(43, 127, 228, 0.35);
+  opacity: 0.96;
+}
+.el-button--primary.is-link,
+.el-button--primary.is-text {
+  color: var(--brand-500);
+}
+
+/* 输入框/选择器：圆角和边框统一 */
+.el-input__wrapper,
+.el-textarea__inner {
+  border-radius: var(--radius-md);
+}
+.el-select__wrapper {
+  border-radius: var(--radius-md);
+}
+
+/* 表格：去掉笨重的边框，加浅色表头 */
+.el-table {
+  border-radius: var(--radius-md);
+}
+.el-table th.el-table__cell {
+  background: var(--bg-soft) !important;
+  color: var(--text-3);
+  font-weight: 600;
+  font-size: 13px;
+}
+.el-table td.el-table__cell {
+  border-bottom: 1px solid var(--border-base);
+}
+.el-table--striped .el-table__body tr.el-table__row--striped td.el-table__cell {
+  background: #fafbfe;
+}
+.el-table__body tr:hover > td.el-table__cell {
+  background: var(--brand-50) !important;
+}
+
+/* 标签：圆角胶囊形状 */
+.el-tag {
+  border-radius: var(--radius-full);
+  font-weight: 500;
+}
+
+/* 分页按钮 */
+.el-pagination.is-background .el-pager li {
+  border-radius: var(--radius-sm);
+}
+.el-pagination.is-background .el-pager li.is-active {
+  background: var(--grad-brand);
+}
+
+/* 弹窗：圆角 + 大阴影 + 毛玻璃透明底
+   背景色从纯白改成半透明，再用 backdrop-filter 把弹窗后面的内容模糊掉，
+   就能透过弹窗隐约看到页面 —— 即"毛玻璃"效果，同时不影响文字可读性 */
+.el-dialog {
+  --el-dialog-bg-color: rgba(255, 255, 255, 0.62);
+  background: rgba(255, 255, 255, 0.62);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  backdrop-filter: blur(22px) saturate(160%);
+  -webkit-backdrop-filter: blur(22px) saturate(160%);
+}
+.el-dialog__header {
+  padding: 20px 24px 12px;
+  margin-right: 0;
+  font-weight: 600;
+}
+.el-dialog__body {
+  padding: 8px 24px 16px;
+}
+
+/* 确认框（ElMessageBox，比如删除时的确认弹窗）：和上面弹窗保持一致的毛玻璃风格 */
+.el-message-box {
+  background: rgba(255, 255, 255, 0.62);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(22px) saturate(160%);
+  -webkit-backdrop-filter: blur(22px) saturate(160%);
+}
+
+/* 下拉菜单 */
+.el-dropdown-menu {
+  border-radius: var(--radius-md);
+  padding: 6px;
+}
+.el-dropdown-menu__item {
+  border-radius: var(--radius-sm);
+}
+
+/* 消息提示（ElMessage） */
+.el-message {
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+}
+
+/* 空状态：文字颜色调浅一点 */
+.el-empty__description p {
+  color: var(--text-4);
+}

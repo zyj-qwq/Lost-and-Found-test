@@ -1,0 +1,100 @@
+<!-- ============================================================
+hero-illustration.svg —— 首页 Hero 区的插画
+============================================================
+这是一张手写的矢量图（SVG），画的是"寻物"的场景：
+  一个放大镜正在找一张卡片，周围有些漂浮的小物件和光点。
+为什么不用照片？
+  1. SVG 是纯代码，体积极小，放大不糊；
+  2. 颜色可以直接用渐变，和我们的品牌色完全一致；
+  3. 不依赖外网，离线也能显示。
+============================================================ -->
+
+<svg viewBox="0 0 520 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- 卡片渐变 -->
+    <linearGradient id="cardGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#e8f1ff" />
+    </linearGradient>
+    <!-- 放大镜镜片渐变 -->
+    <linearGradient id="lensGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#85c1ff" stop-opacity="0.55" />
+      <stop offset="100%" stop-color="#7c5cff" stop-opacity="0.35" />
+    </linearGradient>
+    <!-- 品牌渐变 -->
+    <linearGradient id="brandGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2b7fe4" />
+      <stop offset="100%" stop-color="#7c5cff" />
+    </linearGradient>
+    <!-- 柔和光晕 -->
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <!-- 背景光晕 -->
+  <circle cx="260" cy="185" r="165" fill="url(#glow)" />
+  <circle cx="260" cy="185" r="128" stroke="#ffffff" stroke-opacity="0.35" stroke-width="1.5" stroke-dasharray="6 10" />
+
+  <!-- 漂浮的装饰小圆点 -->
+  <circle cx="72" cy="86" r="7" fill="#ffffff" fill-opacity="0.55" />
+  <circle cx="446" cy="112" r="10" fill="#ffffff" fill-opacity="0.45" />
+  <circle cx="98" cy="296" r="5" fill="#ffffff" fill-opacity="0.5" />
+  <circle cx="430" cy="286" r="6" fill="#ffffff" fill-opacity="0.5" />
+  <circle cx="386" cy="52" r="4" fill="#ffffff" fill-opacity="0.6" />
+  <circle cx="150" cy="46" r="4.5" fill="#ffffff" fill-opacity="0.5" />
+
+  <!-- 背面倾斜的大卡片（虚化的"信息卡"） -->
+  <g transform="rotate(-8 250 190)">
+    <rect x="118" y="96" width="230" height="168" rx="16" fill="url(#cardGrad)" fill-opacity="0.7" />
+  </g>
+
+  <!-- 主卡片：失物信息卡 -->
+  <g>
+    <!-- 投影 -->
+    <rect x="152" y="112" width="248" height="176" rx="18" fill="#1a519c" fill-opacity="0.18" transform="translate(0 10)" />
+    <!-- 卡身 -->
+    <rect x="152" y="112" width="248" height="176" rx="18" fill="url(#cardGrad)" />
+
+    <!-- 卡片顶部的图片占位区 -->
+    <rect x="172" y="132" width="96" height="72" rx="10" fill="url(#brandGrad)" fill-opacity="0.85" />
+    <!-- 图片占位区里的"山与太阳"（表示这是一张图） -->
+    <circle cx="196" cy="156" r="8" fill="#ffffff" fill-opacity="0.85" />
+    <path d="M172 196 L200 168 L218 184 L234 170 L268 204 L172 204 Z" fill="#ffffff" fill-opacity="0.75" />
+
+    <!-- 卡片右侧的文字行（用圆角矩形表示文字） -->
+    <rect x="284" y="138" width="96" height="10" rx="5" fill="#2b7fe4" fill-opacity="0.65" />
+    <rect x="284" y="158" width="76" height="8" rx="4" fill="#3d4757" fill-opacity="0.25" />
+    <rect x="284" y="176" width="86" height="8" rx="4" fill="#3d4757" fill-opacity="0.25" />
+    <rect x="284" y="194" width="56" height="8" rx="4" fill="#3d4757" fill-opacity="0.25" />
+
+    <!-- 卡片底部的状态标签 -->
+    <rect x="172" y="226" width="62" height="24" rx="12" fill="#f04a5e" fill-opacity="0.14" />
+    <rect x="184" y="235" width="38" height="6" rx="3" fill="#f04a5e" fill-opacity="0.75" />
+
+    <rect x="244" y="226" width="72" height="24" rx="12" fill="#12b886" fill-opacity="0.14" />
+    <rect x="256" y="235" width="48" height="6" rx="3" fill="#12b886" fill-opacity="0.75" />
+
+    <rect x="326" y="226" width="54" height="24" rx="12" fill="#f5a524" fill-opacity="0.16" />
+    <rect x="338" y="235" width="30" height="6" rx="3" fill="#f5a524" fill-opacity="0.8" />
+  </g>
+
+  <!-- 放大镜：镜片 + 手柄 -->
+  <g>
+    <circle cx="318" cy="252" r="58" fill="url(#lensGrad)" />
+    <circle cx="318" cy="252" r="58" stroke="#ffffff" stroke-width="9" />
+    <circle cx="318" cy="252" r="58" stroke="#2b7fe4" stroke-opacity="0.35" stroke-width="2" />
+    <!-- 镜片上的高光 -->
+    <path d="M286 216 A 46 46 0 0 1 316 204" stroke="#ffffff" stroke-width="6" stroke-linecap="round" fill="none" stroke-opacity="0.9" />
+    <!-- 手柄 -->
+    <rect x="356" y="288" width="20" height="66" rx="10" fill="#ffffff" transform="rotate(-42 366 321)" />
+    <rect x="360" y="292" width="12" height="58" rx="6" fill="#2b7fe4" fill-opacity="0.55" transform="rotate(-42 366 321)" />
+  </g>
+
+  <!-- 右下角的小旗子（表示"已找到"） -->
+  <g transform="translate(96 226)">
+    <rect x="0" y="0" width="3" height="62" rx="1.5" fill="#ffffff" fill-opacity="0.9" />
+    <path d="M3 2 L44 14 L3 26 Z" fill="#12b886" fill-opacity="0.9" />
+  </g>
+</svg>

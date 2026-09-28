@@ -1,0 +1,31 @@
+<!-- ============================================================
+logo.svg —— 网站图标（favicon）
+============================================================
+就是浏览器标签页上那个小图标。
+画的是一个圆角方块里一把放大镜 + 一个小定位点，
+和首页 Hero 插画的视觉语言保持一致。
+放在 public/ 目录下的文件会被 Vite 原样复制到网站根目录，
+所以 index.html 里用 href="/logo.svg" 就能引用。
+============================================================ -->
+
+<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2b7fe4" />
+      <stop offset="100%" stop-color="#7c5cff" />
+    </linearGradient>
+  </defs>
+
+  <!-- 圆角底 -->
+  <rect width="64" height="64" rx="16" fill="url(#bg)" />
+
+  <!-- 放大镜镜片 -->
+  <circle cx="28" cy="27" r="13" stroke="#ffffff" stroke-width="4.5" fill="none" />
+  <!-- 镜片内的高光 -->
+  <path d="M21 21 A 9 9 0 0 1 26 19" stroke="#ffffff" stroke-width="3" stroke-linecap="round" fill="none" stroke-opacity="0.75" />
+  <!-- 手柄 -->
+  <line x1="37.5" y1="36.5" x2="47" y2="46" stroke="#ffffff" stroke-width="5.5" stroke-linecap="round" />
+
+  <!-- 右上角的小星点（表示"找到啦"） -->
+  <path d="M48 14 L49.6 19 L54.5 20.5 L49.6 22 L48 27 L46.4 22 L41.5 20.5 L46.4 19 Z" fill="#ffffff" fill-opacity="0.92" />
+</svg>
