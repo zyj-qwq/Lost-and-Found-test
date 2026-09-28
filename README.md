@@ -1,4 +1,4 @@
-[README.md](https://github.com/user-attachments/files/32716596/README.md)
+[README.md](https://github.com/user-attachments/files/32755305/README.md)
 <div align="center">
 
 # 🔍 校园失物招领平台
@@ -40,19 +40,37 @@
 | 📋 **信息管理**  | 失物/拾物分类发布、多图上传、关键词搜索、地点筛选、分页浏览              |
 | 🙋 **认领流程**  | 提交认领证明 → 管理员审核 → 通过后物品自动标记「已认领」             |
 | 🛡️ **管理后台** | 信息审核、认领审核、数据统计看板、用户角色管理、公告管理                |
-| 🎨 **前端体验**  | 响应式栅格布局、路由懒加载、表单校验、操作反馈、权限路由守卫              |
+| 🎨 **视觉设计**  | 渐变 Hero 横幅、手写 SVG 插画、卡片悬停动效、响应式栅格、页面切换动画    |
+| ⚙️ **工程化**   | TypeScript 全量类型、路由懒加载、权限路由守卫、统一 Axios 拦截器   |
 | 📚 **完整文档**  | 4 篇中文文档：Vue 原理入门、项目结构、核心流程、常见问题             |
+
+---
+
+## 🎨 界面预览
+
+前端围绕一套「设计变量」体系构建（`src/styles/theme.css`），所有颜色、圆角、阴影、动效曲线都集中管理，改一处即可全局换肤。
+
+| 页面            | 设计要点                                       |
+| ------------- | ------------------------------------------ |
+| **首页**        | 渐变 Hero 横幅 + 实时统计数字 + 手绘寻物插画，筛选面板上浮压入横幅    |
+| **登录 / 注册**   | 左右分栏：左侧品牌渐变面板（含卖点列表），右侧白色表单卡片              |
+| **信息详情**      | 左图右文两栏，左侧 sticky 图片区 + 可切换缩略图，右侧 2×2 关键信息格 |
+| **发布信息**      | 左表单 + 右侧**实时预览**，填什么就能看到发出去长什么样            |
+| **我的发布 / 申请** | 顶部状态快捷筛选 chip，点一下即按状态过滤                    |
+| **管理后台**      | 深色渐变侧边栏 + 图标菜单，数据看板卡片带装饰进度条                |
+
+> 🖼️ **插画均为手写 SVG**（`src/assets/`）：体积极小、放大不糊、颜色与品牌色完全一致，且不依赖外网。
 
 ---
 
 ## 🏗️ 技术栈
 
-<table>  
-<tr>  
-<th>层级</th><th>技术选型</th>  
-</tr>  
-<tr>  
-<td><b>前端</b></td>  
+<table>    
+<tr>    
+<th>层级</th><th>技术选型</th>    
+</tr>    
+<tr>    
+<td><b>前端</b></td>    
 <td>
 
 - **Vue 3.5**（组合式 API + `<script setup>`）
@@ -63,10 +81,10 @@
 - **Axios**（请求封装 + 拦截器）
 - **Vite 5**（开发服务器 + 构建）
 
-</td>  
-</tr>  
-<tr>  
-<td><b>后端</b></td>  
+</td>    
+</tr>    
+<tr>    
+<td><b>后端</b></td>    
 <td>
 
 - **Node.js 22** + **Express 4**
@@ -75,17 +93,26 @@
 - **Multer**（图片上传）
 - **CORS**（跨域支持）
 
-</td>  
-</tr>  
-<tr>  
-<td><b>数据层</b></td>  
-<td>JSON 文件存储（\`backend/data/db.json\`）—— 零配置，打开文件即可查看全部数据</td>  
-</tr>  
+</td>    
+</tr>    
+<tr>    
+<td><b>数据层</b></td>    
+<td>JSON 文件存储（\\\`backend/data/db.json\\\`）—— 零配置，打开文件即可查看全部数据</td>    
+</tr>    
 </table>
 
 ---
 
 ## 🚀 快速开始
+
+### ⚡ 最省事：一键启动
+
+**Windows 用户**：直接双击项目根目录的 **`启动.bat`**  
+**Mac / Linux 用户**：终端里执行 `bash 启动.sh`
+
+脚本会自动做完这些事：清掉占用的旧端口 → 启动后端(8080) → 启动前端(5173) → 自动打开浏览器。**弹出的两个命令行窗口不要关**，关了服务就停了；想停止服务就把两个窗口都关掉。
+
+> 第一次使用需要先做下面的「安装依赖」，依赖装好后以后每次都只需双击。
 
 ### 环境要求
 
@@ -133,6 +160,9 @@ npx vite
 
 访问 👉 **<http://localhost:5173>**
 
+> 💡 两个服务必须**同时**运行：后端（8080）提供数据接口，前端（5173）显示页面。  
+> 只开一个的话，浏览器里要么打不开页面，要么页面能显示但列表是空的（因为拿不到数据）。
+
 ### 🔑 内置账号
 
 | 角色    | 账号           | 密码         | 说明        |
@@ -147,6 +177,9 @@ npx vite
 
 ```
 Lost and Found/
+├── 启动.bat                    ⚡ Windows 一键启动（双击即用）
+├── 启动.sh                     ⚡ Mac / Linux 一键启动
+│
 ├── backend/                    🔧 后端服务（Node.js + Express）
 │   ├── src/
 │   │   ├── index.js              服务器主文件：全部接口实现（含详细注释）
@@ -156,23 +189,31 @@ Lost and Found/
 │   └── package.json
 │
 ├── frontend/                   🎨 前端主工程（Vue 3 + TypeScript）
-│   ├── index.html                单页应用入口
+│   ├── index.html                单页应用入口（含 favicon / SEO 元信息）
 │   ├── vite.config.ts            构建配置（@ 别名 + /api 代理）
 │   ├── tsconfig.json
+│   ├── public/
+│   │   └── logo.svg              浏览器标签页图标
 │   └── src/
 │       ├── main.ts               应用入口：装插件、挂载
-│       ├── App.vue               根组件：导航栏 + router-view
+│       ├── App.vue               根组件：导航栏 + router-view + 页脚
 │       ├── api/index.ts          Axios 封装（自动带 token、统一错误处理）
 │       ├── router/index.ts       路由表 + 权限守卫
 │       ├── stores/auth.ts        登录状态仓库（Pinia）
 │       ├── types/index.ts        TypeScript 类型定义
 │       ├── utils/format.ts       时间格式化、状态文案映射
+│       ├── styles/               🎨 设计系统
+│       │   ├── theme.css           设计变量：配色 / 圆角 / 阴影 / 动效曲线
+│       │   └── global.css          基础重置 + 通用工具类 + 组件库微调
+│       ├── assets/               🖼️ 手写 SVG 插画
+│       │   ├── hero-illustration.svg  首页横幅 & 登录页品牌图
+│       │   └── empty-box.svg          空状态占位图
 │       └── views/                页面组件
-│           ├── LoginView.vue         登录 / 注册
-│           ├── HomeView.vue          首页：列表 + 搜索 + 筛选
-│           ├── ItemDetailView.vue    详情 + 认领申请
-│           ├── PublishView.vue       发布信息 + 图片上传
-│           ├── MyItemsView.vue       我的发布
+│           ├── LoginView.vue         登录 / 注册（左右分栏）
+│           ├── HomeView.vue          首页：Hero + 列表 + 搜索 + 筛选
+│           ├── ItemDetailView.vue    详情（左图右文）+ 认领申请
+│           ├── PublishView.vue       发布信息 + 图片上传 + 实时预览
+│           ├── MyItemsView.vue       我的发布（状态快捷筛选）
 │           ├── MyClaimsView.vue      我的认领申请
 │           ├── AnnouncementsView.vue 公告
 │           └── admin/                管理后台（6 个页面）
@@ -358,6 +399,9 @@ npx vite preview                    # 预览打包结果
 rm backend/data/db.json && cd backend && node src/index.js
 ```
 
+
+```
+
 ---
 
 ## ❓ 常见问题
@@ -407,6 +451,7 @@ npm install --registry=https://registry.npmmirror.com
 </details>
 
 ---
+
 
 ## 🗺️ 后续可扩展方向
 
